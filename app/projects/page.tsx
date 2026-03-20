@@ -24,7 +24,7 @@ const projects = [
       "Deployed for near-zero cost",
     ],
     links: {
-      live: "https://eagleeye-intel.vercel.app",
+      live: "/eagleeye",
       github: null,
     },
   },
@@ -86,10 +86,10 @@ export default function ProjectsPage() {
 
               <div className="flex flex-wrap gap-3">
                 {project.links.live && (
-                  <a href={project.links.live} target="_blank" rel="noopener noreferrer"
+                  <Link href={project.links.live}
                     className="px-4 py-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-lg text-sm font-medium transition-colors">
                     View live →
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>
