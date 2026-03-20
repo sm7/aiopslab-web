@@ -9,12 +9,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/eagleeye",
-        destination: "https://eagleeye-intel.vercel.app",
+        destination: "https://eagle-eye-rho.vercel.app",
         permanent: false,
       },
       {
         source: "/eagleeye/:path*",
-        destination: "https://eagleeye-intel.vercel.app/:path*",
+        destination: "https://eagle-eye-rho.vercel.app/:path*",
         permanent: false,
       },
     ];
