@@ -10,10 +10,8 @@ export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-20">
       <div className="mb-16">
-        <p className="text-xs font-mono text-[#3b82f6] uppercase tracking-widest mb-4">
-          About
-        </p>
-        <h1 className="text-4xl font-bold text-[#f1f5f9] mb-6 leading-tight">
+        <p className="text-xs font-mono text-[var(--accent)] uppercase tracking-widest mb-4">About</p>
+        <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-6 leading-tight">
           Built by engineers who got tired of demos.
         </h1>
       </div>
@@ -22,7 +20,7 @@ export default function AboutPage() {
         <p>
           AIOpsLab started with a single question: what happens when you apply
           real infrastructure rigor to AI applications — not notebook experiments,
-          not prototypes, but systems that actually run?
+          not prototypes, but systems that actually run and generate value?
         </p>
 
         <p>
@@ -35,14 +33,12 @@ export default function AboutPage() {
 
         <h2>What we focus on</h2>
 
-        <p>
-          Our current research sits at three intersections:
-        </p>
+        <p>Our current research sits at three intersections:</p>
 
         <ul>
           <li>
-            <strong>Security intelligence</strong> — applying ML to WAF, SIEM
-            correlation, and adversarial traffic detection in ways that hold up
+            <strong>Security intelligence</strong> — applying ML to cyber security,
+            specifically WAF, and adversarial traffic detection in ways that hold up
             against real attackers, not benchmark datasets.
           </li>
           <li>
@@ -60,11 +56,10 @@ export default function AboutPage() {
         <h2>How we publish</h2>
 
         <p>
-          Every project is open source from day one. Research is published in
-          two forms: <strong>Field Notes</strong> (short, opinionated takes on
-          specific problems) and <strong>Deep Dives</strong> (full technical
-          breakdowns of architecture, data pipelines, and model decisions).
-          Nothing is gated.
+          Research is published in two forms: <strong>Field Notes</strong> (short,
+          opinionated takes on specific problems) and <strong>Deep Dives</strong>{" "}
+          (full technical breakdowns of architecture, data pipelines, and model
+          decisions). Nothing is gated.
         </p>
 
         <h2>Who we are</h2>
@@ -76,32 +71,24 @@ export default function AboutPage() {
         </p>
 
         <p>
-          If you want to know more or contribute, the{" "}
+          If you want to contribute, the{" "}
           <a href="/collaborate">collaboration page</a> is the right place to
           start. If you want to follow the research,{" "}
           <a href="/research">everything is here</a>.
         </p>
       </div>
 
-      <div className="mt-14 pt-10 border-t border-[#1e2d45] flex flex-wrap gap-4">
-        <Link
-          href="/projects"
-          className="px-5 py-2.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-lg text-sm font-medium transition-colors"
-        >
+      <div className="mt-14 pt-10 border-t border-[var(--border-color)] flex flex-wrap gap-4">
+        <Link href="/projects"
+          className="px-5 py-2.5 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white rounded-lg text-sm font-medium transition-colors">
           See the work
         </Link>
-        <Link
-          href="/research"
-          className="px-5 py-2.5 bg-[#0d1526] border border-[#1e2d45] hover:border-[#3b82f6]/30 text-[#94a3b8] rounded-lg text-sm font-medium transition-colors"
-        >
+        <Link href="/research"
+          className="px-5 py-2.5 bg-[var(--surface)] border border-[var(--border-color)] hover:border-[var(--accent)]/30 text-[var(--text-dim)] rounded-lg text-sm font-medium transition-colors">
           Read research
         </Link>
-        <a
-          href="https://github.com/sm7"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-5 py-2.5 bg-[#0d1526] border border-[#1e2d45] hover:border-[#3b82f6]/30 text-[#94a3b8] rounded-lg text-sm font-medium transition-colors"
-        >
+        <a href="https://github.com/sm7" target="_blank" rel="noopener noreferrer"
+          className="px-5 py-2.5 bg-[var(--surface)] border border-[var(--border-color)] hover:border-[var(--accent)]/30 text-[var(--text-dim)] rounded-lg text-sm font-medium transition-colors">
           GitHub →
         </a>
       </div>
