@@ -2,8 +2,8 @@
 title: "Cybersecurity in the Age of Agents: When Software Can Act"
 date: "2026-03-13"
 series: "AI for Security"
-excerpt: "In early 2026, researchers documented how ai agents is shaping the next generation of malware and credential theft. Lets understand the latest threat scenario."
-tags: ["ai", "agents", "cybersecurity"]
+excerpt: "In early 2026, researchers documented how AI agents is shaping the next generation of malware and credential theft. Let us understand the latest threat scenario."
+tags: ["AI", "agents", "cybersecurity"]
 draft: false
 ---
 
@@ -30,7 +30,7 @@ An agent is an AI system that can :-
 1. Plan,
 2. Call tools/APIs,
 3. Maintain state/memory across steps, and
-4. Execute multi-step workflows with varying degrees of autonomy.
+4. Execute multistep workflows with varying degrees of autonomy.
 
 Key properties:
 
@@ -80,11 +80,11 @@ But there’s a catch: **defender agents are also privileged software**. Without
 
 ## The new attack surface (what you must model explicitly)
 
-1. **Tool/API abuse and permission sprawl**
+*. **Tool/API abuse and permission sprawl**
 
 Agents are only as safe as the permissions you hand them. The danger pattern is familiar: “It needs GitHub + Slack + Drive + Jira + AWS to be useful,” so it gets all of them—often with broad scopes and long-lived tokens.
 
-2. **Prompt injection and indirect prompt injection**
+*. **Prompt injection and indirect prompt injection**
 
 Prompt injection is not just “jailbreaks.” It’s **untrusted data being treated as trusted instructions**.
 
@@ -121,11 +121,11 @@ The content is in-band (email body), so naive agents don’t distinguish it from
 
 The attack requests tool actions (search + upload), not just text generation.
 
-3. **Data exfiltration via tool calls/connectors**
+*. **Data exfiltration via tool calls/connectors**
 
 If an agent can “read Drive” and “send Slack messages,” it can exfiltrate data—accidentally or on purpose—through normal channels that look legitimate in logs.
 
-4. **Secrets exposure (env vars, logs, CI, prompt traces)**
+*. **Secrets exposure (env vars, logs, CI, prompt traces)**
 
 Agents tend to:
 
@@ -138,13 +138,13 @@ That combination increases the chance that secrets end up in places they don’t
 
 In early 2026 reporting, researchers noted infostealers harvesting agent configuration files containing API keys and authentication tokens from popular agent setups.[^1]
 
-5. **Supply chain risks (models, plugins/skills, packages, connectors)**
+*. **Supply chain risks (models, plugins/skills, packages, connectors)**
 
 The “skills”/plugin ecosystem is the new npm: powerful, messy, and attacker-friendly.
 
 Real-world write-ups documented top-downloaded community skills that acted as staged malware delivery vehicles by directing users/agents to run obfuscated commands and install “dependencies” from malicious infrastructure.[^2]
 
-6. **Identity & authorization failure modes (OAuth, service accounts, agent trust)**
+*. **Identity & authorization failure modes (OAuth, service accounts, agent trust)**
 
 Identity failures show up as:
 
@@ -156,7 +156,7 @@ Weak audit attribution (“the bot did it” is not an identity model).
 
 Agent-to-agent trust without authentication or policy.
 
-7. **Lateral movement through agentic workflows (ticketing, chatops, RPA)**
+*. **Lateral movement through agentic workflows (ticketing, chatops, RPA)**
 
 If your agent can:
 
@@ -425,7 +425,7 @@ The point isn’t that the agent “solved security.” It removed toil while go
 
 Glossary
 
-**Agent**: AI system that plans and executes multi-step actions using tools and memory.
+**Agent**: AI system that plans and executes multistep actions using tools and memory.
 
 **Tool call / function call:** Structured invocation of an external capability (API, script, connector).
 
@@ -435,7 +435,7 @@ Glossary
 
 **Workload identity:** Non-human identity with constrained permissions and strong auditability.
 
-**Policy enforcement point (PEP):** Gate that allows/blocks actions based on policy (pre/post tool call).
+**Policy enforcement point (PEP):** Gate that allows/blocks actions based on policy (pre or post tool call).
 
 **Provenance:** Trace linking an action/output to inputs, retrievals, and tool calls.
 
