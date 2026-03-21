@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import Logo from "./Logo";
 
 const links = [
   { href: "/research", label: "Research" },
@@ -17,15 +18,7 @@ export default function Nav() {
   return (
     <header className="border-b border-[var(--border-color)] bg-[var(--bg)]/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="w-7 h-7 rounded-md bg-[var(--accent)]/10 border border-[var(--accent)]/30 flex items-center justify-center">
-            <span className="font-mono text-[var(--accent)] text-xs font-bold">A</span>
-          </span>
-          <span className="font-semibold text-[var(--text-primary)] tracking-tight group-hover:text-[var(--text-primary)] transition-colors">
-            aiopslab
-            <span className="text-[var(--accent)]">.co</span>
-          </span>
-        </Link>
+        <Logo href="/" />
 
         <nav className="flex items-center gap-1">
           {links.map(({ href, label }) => {

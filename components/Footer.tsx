@@ -1,14 +1,13 @@
 import Link from "next/link";
+import Logo from "./Logo";
 
 export default function Footer() {
   return (
     <footer className="border-t border-[var(--border-color)] mt-24">
       <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div>
-          <p className="text-[var(--text-primary)] font-semibold text-sm">
-            aiopslab<span className="text-[var(--accent)]">.co</span>
-          </p>
-          <p className="text-[var(--text-muted)] text-xs mt-1">Applied AI research studio.</p>
+          <Logo href="/" />
+          <p className="text-[var(--text-muted)] text-xs mt-2 ml-1">Applied AI research studio.</p>
         </div>
 
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-[var(--text-muted)]">
