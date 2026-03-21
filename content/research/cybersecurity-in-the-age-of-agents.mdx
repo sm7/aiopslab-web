@@ -2,7 +2,7 @@
 title: "Cybersecurity in the Age of Agents: When Software Can Act"
 date: "2026-03-13"
 series: "AI for Security"
-excerpt: "In early 2026, researchers documented how AI agents is shaping the next generation of malware and credential theft. Let us understand the latest threat scenario."
+excerpt: "In early 2026, researchers documented how AI agents is shaping the next generation of malware and credential theft. Lets understand the latest threat scenario."
 tags: ["AI", "agents", "cybersecurity"]
 draft: false
 ---
@@ -80,11 +80,11 @@ But there’s a catch: **defender agents are also privileged software**. Without
 
 ## The new attack surface (what you must model explicitly)
 
-*. **Tool/API abuse and permission sprawl**
+1. **Tool/API abuse and permission sprawl**
 
 Agents are only as safe as the permissions you hand them. The danger pattern is familiar: “It needs GitHub + Slack + Drive + Jira + AWS to be useful,” so it gets all of them—often with broad scopes and long-lived tokens.
 
-*. **Prompt injection and indirect prompt injection**
+2. **Prompt injection and indirect prompt injection**
 
 Prompt injection is not just “jailbreaks.” It’s **untrusted data being treated as trusted instructions**.
 
@@ -121,11 +121,11 @@ The content is in-band (email body), so naive agents don’t distinguish it from
 
 The attack requests tool actions (search + upload), not just text generation.
 
-*. **Data exfiltration via tool calls/connectors**
+3. **Data exfiltration via tool calls/connectors**
 
 If an agent can “read Drive” and “send Slack messages,” it can exfiltrate data—accidentally or on purpose—through normal channels that look legitimate in logs.
 
-*. **Secrets exposure (env vars, logs, CI, prompt traces)**
+4. **Secrets exposure (env vars, logs, CI, prompt traces)**
 
 Agents tend to:
 
@@ -138,13 +138,13 @@ That combination increases the chance that secrets end up in places they don’t
 
 In early 2026 reporting, researchers noted infostealers harvesting agent configuration files containing API keys and authentication tokens from popular agent setups.[^1]
 
-*. **Supply chain risks (models, plugins/skills, packages, connectors)**
+5. **Supply chain risks (models, plugins/skills, packages, connectors)**
 
 The “skills”/plugin ecosystem is the new npm: powerful, messy, and attacker-friendly.
 
 Real-world write-ups documented top-downloaded community skills that acted as staged malware delivery vehicles by directing users/agents to run obfuscated commands and install “dependencies” from malicious infrastructure.[^2]
 
-*. **Identity & authorization failure modes (OAuth, service accounts, agent trust)**
+6. **Identity & authorization failure modes (OAuth, service accounts, agent trust)**
 
 Identity failures show up as:
 
@@ -156,7 +156,7 @@ Weak audit attribution (“the bot did it” is not an identity model).
 
 Agent-to-agent trust without authentication or policy.
 
-*. **Lateral movement through agentic workflows (ticketing, chatops, RPA)**
+7. **Lateral movement through agentic workflows (ticketing, chatops, RPA)**
 
 If your agent can:
 
@@ -205,6 +205,8 @@ Add a GitHub Action, a scheduled workflow, or a hidden “helper skill.”
 
 Delete chat history, rotate logs, blend into normal bot traffic.
 
+![Agentic kill chain](/research/cybersecurity-kill-chain.png)
+
 
 ## Defensive architecture: a layered model built for agents
 
@@ -251,6 +253,7 @@ Think of this as your agent firewall.
 - Did the tool output contain sensitive content? Apply DLP/redaction.
 - Did the agent attempt disallowed behavior? Quarantine session and revoke tokens
 
+![Policy enforcement points](/research/cybersecurity-defensive-arch-layer.png)
 
 **Layer 4: Guardrails: allowlists, schemas, sandboxing, egress controls, DLP**
 
@@ -425,7 +428,7 @@ The point isn’t that the agent “solved security.” It removed toil while go
 
 Glossary
 
-**Agent**: AI system that plans and executes multistep actions using tools and memory.
+**Agent**: AI system that plans and executes multi-step actions using tools and memory.
 
 **Tool call / function call:** Structured invocation of an external capability (API, script, connector).
 
@@ -435,7 +438,7 @@ Glossary
 
 **Workload identity:** Non-human identity with constrained permissions and strong auditability.
 
-**Policy enforcement point (PEP):** Gate that allows/blocks actions based on policy (pre or post tool call).
+**Policy enforcement point (PEP):** Gate that allows/blocks actions based on policy (pre/post tool call).
 
 **Provenance:** Trace linking an action/output to inputs, retrievals, and tool calls.
 
