@@ -26,55 +26,47 @@ The shift isn’t that attackers suddenly got smarter. It’s that software got 
 
 ## What we mean by “agents” (and why they’re different)
 
-An agent is an AI system that can :-
+An agent is an AI system that can:
+
 1. Plan,
 2. Call tools/APIs,
 3. Maintain state/memory across steps, and
 4. Execute multistep workflows with varying degrees of autonomy.
 
-Key properties:
+**Key properties:**
 
-Tool use: The model can invoke functions (send email, open PR, query SIEM, run code).
+- **Tool use:** The model can invoke functions (send email, open PR, query SIEM, run code).
+- **State & memory:** It stores context (preferences, prior decisions, tokens, intermediate artifacts).
+- **Autonomy:** It can decide when to act and which tool to call, not just respond.
+- **Multi-agent composition:** Specialized agents (code agent, SOC agent, IT agent) coordinate via messages, shared memory, or a task queue.
 
-State & memory: It stores context (preferences, prior decisions, tokens, intermediate artifacts).
+**How this differs from what came before:**
 
-Autonomy: It can decide when to act and which tool to call, not just respond.
-
-Multi-agent composition: Specialized agents (code agent, SOC agent, IT agent) coordinate via messages, shared memory, or a task queue.
-
-How this differs from what came before:
-
-Chatbots are primarily advisory: they tell you what to do.
-
-Traditional automation/RPA is deterministic: if X then Y; limited adaptability.
-
-Agents are adaptive actors: they interpret messy inputs, choose tools, and may self-extend via plugins/skills.
+- **Chatbots** are primarily advisory: they tell you what to do.
+- **Traditional automation/RPA** is deterministic: if X then Y; limited adaptability.
+- **Agents** are adaptive actors: they interpret messy inputs, choose tools, and may self-extend via plugins/skills.
 
 That last point is the tectonic shift: agents collapse the gap between “decide” and “do.”
 
 ## Threat model update: both attackers and defenders level up
+
 **Attackers gain: speed, personalization, and cheap chaining**
+
 Agents allow attackers to:
 
-**Industrialize recon + pretexting:** Hyper-personalized phishing at scale (email + voice + chat).
-
-**Chain vulnerabilities faster:** Agent-driven “try, observe, adapt” loops across configs, IAM, and APIs.
-
-**Exploit influence surfaces: **Any content an agent reads (email, ticket, doc, webpage) can become an instruction channel (prompt injection).
-
-**Turn connector tokens into movement: **OAuth tokens and API keys become “skeleton keys” to SaaS.
+- **Industrialize recon + pretexting:** Hyper-personalized phishing at scale (email + voice + chat).
+- **Chain vulnerabilities faster:** Agent-driven “try, observe, adapt” loops across configs, IAM, and APIs.
+- **Exploit influence surfaces:** Any content an agent reads (email, ticket, doc, webpage) can become an instruction channel (prompt injection).
+- **Turn connector tokens into movement:** OAuth tokens and API keys become “skeleton keys” to SaaS.
 
 **Defenders gain: triage acceleration and broader coverage—if controlled**
 
 Agents can help defenders:
 
-**Triage alerts faster:** Summarize logs, cluster incidents, propose hypotheses.
-
-**Automate repetitive response steps:** Enrich indicators, draft tickets, stage containment plans.
-
-**Scale detection engineering:** Generate queries and test them against log samples.
-
-**Improve analyst ergonomics:** Reduce swivel-chair work across tools.
+- **Triage alerts faster:** Summarize logs, cluster incidents, propose hypotheses.
+- **Automate repetitive response steps:** Enrich indicators, draft tickets, stage containment plans.
+- **Scale detection engineering:** Generate queries and test them against log samples.
+- **Improve analyst ergonomics:** Reduce swivel-chair work across tools.
 
 But there’s a catch: **defender agents are also privileged software**. Without strict boundaries, you’ve built an attacker’s dream: a tool that can query everything and act everywhere.
 
@@ -82,15 +74,14 @@ But there’s a catch: **defender agents are also privileged software**. Without
 
 1. **Tool/API abuse and permission sprawl**
 
-Agents are only as safe as the permissions you hand them. The danger pattern is familiar: “It needs GitHub + Slack + Drive + Jira + AWS to be useful,” so it gets all of them—often with broad scopes and long-lived tokens.
+   Agents are only as safe as the permissions you hand them. The danger pattern is familiar: “It needs GitHub + Slack + Drive + Jira + AWS to be useful,” so it gets all of them—often with broad scopes and long-lived tokens.
 
 2. **Prompt injection and indirect prompt injection**
 
-Prompt injection is not just “jailbreaks.” It’s **untrusted data being treated as trusted instructions**.
+   Prompt injection is not just “jailbreaks.” It’s **untrusted data being treated as trusted instructions**.
 
-**Direct injection: **A user tells the agent to do something malicious.
-
-**Indirect injection: **The agent reads an email/webpage/document containing hidden or explicit instructions that override the agent’s goals.
+   - **Direct injection:** A user tells the agent to do something malicious.
+   - **Indirect injection:** The agent reads an email/webpage/document containing hidden or explicit instructions that override the agent’s goals.
 
 Microsoft’s security guidance for agent runtimes has specifically called out indirect prompt injection and skill malware as core risks to address in real deployments.
 
@@ -123,51 +114,43 @@ The attack requests tool actions (search + upload), not just text generation.
 
 3. **Data exfiltration via tool calls/connectors**
 
-If an agent can “read Drive” and “send Slack messages,” it can exfiltrate data—accidentally or on purpose—through normal channels that look legitimate in logs.
+   If an agent can “read Drive” and “send Slack messages,” it can exfiltrate data—accidentally or on purpose—through normal channels that look legitimate in logs.
 
 4. **Secrets exposure (env vars, logs, CI, prompt traces)**
 
-Agents tend to:
+   Agents tend to:
 
-Run near developer environments (where secrets already live).
+   - Run near developer environments (where secrets already live).
+   - Log aggressively (for debugging).
+   - Store memory (for continuity).
 
-Log aggressively (for debugging).
-
-Store memory (for continuity).
-That combination increases the chance that secrets end up in places they don’t belong.
-
-In early 2026 reporting, researchers noted infostealers harvesting agent configuration files containing API keys and authentication tokens from popular agent setups.[^1]
+   That combination increases the chance that secrets end up in places they don’t belong. In early 2026 reporting, researchers noted infostealers harvesting agent configuration files containing API keys and authentication tokens from popular agent setups.[^1]
 
 5. **Supply chain risks (models, plugins/skills, packages, connectors)**
 
-The “skills”/plugin ecosystem is the new npm: powerful, messy, and attacker-friendly.
+   The “skills”/plugin ecosystem is the new npm: powerful, messy, and attacker-friendly.
 
-Real-world write-ups documented top-downloaded community skills that acted as staged malware delivery vehicles by directing users/agents to run obfuscated commands and install “dependencies” from malicious infrastructure.[^2]
+   Real-world write-ups documented top-downloaded community skills that acted as staged malware delivery vehicles by directing users/agents to run obfuscated commands and install “dependencies” from malicious infrastructure.[^2]
 
 6. **Identity & authorization failure modes (OAuth, service accounts, agent trust)**
 
-Identity failures show up as:
+   Identity failures show up as:
 
-Overbroad OAuth scopes (“read/write everything”).
-
-Shared service accounts used by multiple agents.
-
-Weak audit attribution (“the bot did it” is not an identity model).
-
-Agent-to-agent trust without authentication or policy.
+   - Overbroad OAuth scopes (“read/write everything”).
+   - Shared service accounts used by multiple agents.
+   - Weak audit attribution (“the bot did it” is not an identity model).
+   - Agent-to-agent trust without authentication or policy.
 
 7. **Lateral movement through agentic workflows (ticketing, chatops, RPA)**
 
-If your agent can:
+   If your agent can:
 
-open a Jira ticket,
+   - open a Jira ticket,
+   - message a channel,
+   - trigger a runbook,
+   - request access,
 
-message a channel,
-
-trigger a runbook,
-
-request access,
-Then it can be used to move laterally through the process, not just through networks.
+   Then it can be used to move laterally through the process, not just through networks.
 
 ## The Agentic Kill Chain (a modern sequence for agent-powered attacks)
 
@@ -175,35 +158,31 @@ Here’s a practical kill chain to use in tabletop exercises:
 
 - **Recon & Targeting**
 
-Identify which teams run agents, which connectors they use, where skills are sourced.
-
-Example: scan public repos/docs for “agent config” patterns.
+  Identify which teams run agents, which connectors they use, where skills are sourced. Example: scan public repos/docs for “agent config” patterns.
 
 - **Influence the Agent**
 
-Deliver an instruction payload via email, ticket, doc, webpage (“indirect prompt injection”).
+  Deliver an instruction payload via email, ticket, doc, webpage (“indirect prompt injection”).
 
 - **Capability Acquisition**
 
-Convince agent/user to install a skill/plugin, grant a connector, or enable a tool.
-
-Example: “Install X integration to complete this request.”
+  Convince agent/user to install a skill/plugin, grant a connector, or enable a tool. Example: “Install X integration to complete this request.”
 
 - **Privilege Expansion**
 
-Use legitimate workflows to gain broader scopes (OAuth consent, access requests, PATs).
+  Use legitimate workflows to gain broader scopes (OAuth consent, access requests, PATs).
 
 - **Action on Objectives**
 
-Exfiltrate data, modify code, create persistence, or trigger financial actions.
+  Exfiltrate data, modify code, create persistence, or trigger financial actions.
 
 - **Persistence**
 
-Add a GitHub Action, a scheduled workflow, or a hidden “helper skill.”
+  Add a GitHub Action, a scheduled workflow, or a hidden “helper skill.”
 
 - **Defense Evasion / Cover Tracks**
 
-Delete chat history, rotate logs, blend into normal bot traffic.
+  Delete chat history, rotate logs, blend into normal bot traffic.
 
 ![Agentic kill chain](/research/cybersecurity-kill-chain.png)
 
@@ -338,11 +317,8 @@ Without that, you don’t have incident response—you have guesses.
 Adopt tiering, but also classify by:
 
 - **Blast radius** (what systems/tools can it touch?)
-
-- **Data sensitivity **(what can it read?)
-
+- **Data sensitivity** (what can it read?)
 - **Action sensitivity** (what can it change?)
-
 - **Autonomy** (does it act on schedules or triggers?)
 
 **SDLC changes you actually need**
@@ -445,24 +421,20 @@ Glossary
 
 ## Future outlook (12–24 months, uncertainty labeled)
 
-Likely (high confidence):
+**Likely (high confidence):**
 
 - More credential theft aimed at agent setups because connector tokens concentrate value.
-
 - Skill/plugin ecosystems become major supply-chain terrain, pushing signing and reputation controls into the mainstream.
-
 - “Agent telemetry” (tool-call graphs + provenance) becomes a standard security data source.
 
-Plausible (medium confidence):
+**Plausible (medium confidence):**
 
 - Agent security gateways (policy gates + schemas + audit) standardize into reference architectures.
-
 - Org-level “agent IAM” practices mature (per-agent identities, approvals, scoped connectors).
 
-Unclear (low confidence / depends on adoption patterns):
+**Unclear (low confidence / depends on adoption patterns):**
 
 - Whether enterprises converge on managed agent platforms (centralized controls) vs a long tail of self-hosted runtimes (harder governance).
-
 - Whether regulators treat agent actions as a distinct compliance domain beyond existing access control frameworks.
 
 The pragmatic stance: assume agents proliferate faster than governance, and build controls that scale without requiring perfect user behavior.
