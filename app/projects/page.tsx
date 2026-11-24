@@ -28,6 +28,27 @@ const projects = [
       github: null,
     },
   },
+  {
+    id: "deals",
+    name: "Black Friday 2026 Deal Board",
+    status: "LIVE",
+    badge: null,
+    tagline: "302 Black Friday deals in one sortable, filterable board.",
+    description:
+      "Merges retailer CSVs, a buy-target workbook and web research into one de-duplicated dataset across 60+ retailers, flags price conflicts between sources, and lays out discounts by category, biggest savings, deadlines, store-wide codes and flash-sale dates. Two tabs: family and baby gear, and maker parts for robotics and home automation.",
+    stack: ["Python", "JavaScript", "SVG", "Playwright", "Vercel"],
+    highlights: [
+      "171 family and baby deals, 131 maker parts",
+      "Price-conflict detection across sources",
+      "Discount distribution by category",
+      "Deadlines, flash sales and store-wide codes",
+      "Single self-contained page, no backend",
+    ],
+    links: {
+      live: "/deals",
+      github: null,
+    },
+  },
 ];
 
 const upcoming = [

@@ -5,6 +5,10 @@ const withMDX = createMDX({});
 
 const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "mdx"],
+  // Deal board: a self-contained static page in public/deals/index.html, served at /deals
+  async rewrites() {
+    return [{ source: "/deals", destination: "/deals/index.html" }];
+  },
   async redirects() {
     return [
       {
